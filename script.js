@@ -25,6 +25,13 @@ const navMenu = document.getElementById('navMenu');
 menuToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
     menuToggle.classList.toggle('active');
+    
+    // Prevent body scroll when menu is open on mobile
+    if (navMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
 });
 
 // Close mobile menu when clicking on a link
@@ -34,7 +41,32 @@ navLinks.forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
         menuToggle.classList.remove('active');
+        document.body.style.overflow = '';
     });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (navMenu.classList.contains('active') &&
+        !navMenu.contains(e.target) &&
+        !menuToggle.contains(e.target)) {
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
+// Handle window resize - close menu and restore scroll
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }, 250);
 });
 
 // Active navigation link on scroll
@@ -156,27 +188,75 @@ testimonialSlider.addEventListener('mouseleave', () => {
 
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', (e) => {
+contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     // Get form data
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        date: document.getElementById('date').value,
-        service: document.getElementById('service').value,
-        message: document.getElementById('message').value
-    };
+    const formData = new FormData(contactForm);
     
-    // In a real application, you would send this data to a server
-    console.log('Form submitted:', formData);
+    // Get the FormSpree action URL
+    const formAction = contactForm.getAttribute('action');
     
-    // Show success message
-    showNotification('Appointment request sent successfully! We will contact you soon.', 'success');
+    // Check if FormSpree is configured
+    if (!formAction || formAction.includes('YOUR_FORMSPREE_ID_HERE')) {
+        // Fallback: Log to console if FormSpree not configured
+        const data = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            date: document.getElementById('date').value,
+            service: document.getElementById('service').value,
+            message: document.getElementById('message').value
+        };
+        console.log('Form submitted (Demo Mode):', data);
+        showNotification('Appointment request sent successfully! We will contact you soon.', 'success');
+        contactForm.reset();
+        return;
+    }
     
-    // Reset form
-    contactForm.reset();
+    try {
+        // Disable submit button to prevent double submission
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        
+        // Send form data to FormSpree
+        const response = await fetch(formAction, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        
+        if (response.ok) {
+            // Success
+            showNotification('Appointment request sent successfully! We will contact you soon.', 'success');
+            contactForm.reset();
+        } else {
+            // Error from FormSpree
+            const data = await response.json();
+            if (data.errors) {
+                showNotification('Error: ' + data.errors.map(error => error.message).join(', '), 'error');
+            } else {
+                showNotification('There was a problem sending your request. Please try again.', 'error');
+            }
+        }
+    } catch (error) {
+        // Network error
+        console.error('Form submission error:', error);
+        showNotification('Network error. Please check your connection and try again.', 'error');
+        
+        // Re-enable button
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Book Appointment';
+    }
 });
 
 // ===================================
@@ -208,8 +288,23 @@ function showNotification(message, type = 'info') {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
+    
+    let iconClass = 'info-circle';
+    let bgColor = '#2d2d2d';
+    let textColor = '#fff';
+    
+    if (type === 'success') {
+        iconClass = 'check-circle';
+        bgColor = '#D4AF37';
+        textColor = '#000';
+    } else if (type === 'error') {
+        iconClass = 'exclamation-circle';
+        bgColor = '#dc3545';
+        textColor = '#fff';
+    }
+    
     notification.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+        <i class="fas fa-${iconClass}"></i>
         <span>${message}</span>
         <button class="notification-close">&times;</button>
     `;
@@ -219,8 +314,8 @@ function showNotification(message, type = 'info') {
         position: fixed;
         top: 100px;
         right: 20px;
-        background-color: ${type === 'success' ? '#D4AF37' : '#2d2d2d'};
-        color: ${type === 'success' ? '#000' : '#fff'};
+        background-color: ${bgColor};
+        color: ${textColor};
         padding: 20px 25px;
         border-radius: 10px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -359,6 +454,146 @@ window.addEventListener('load', () => {
         document.body.style.opacity = '1';
     }, 100);
 });
+
+// ===================================
+// Mobile-specific Enhancements
+// ===================================
+
+// Detect touch device
+const isTouchDevice = () => {
+    return (('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0));
+};
+
+// Add touch class to body for CSS targeting
+if (isTouchDevice()) {
+    document.body.classList.add('touch-device');
+}
+
+// Prevent zoom on double tap for specific elements
+if (isTouchDevice()) {
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+}
+
+// Handle orientation change
+window.addEventListener('orientationchange', () => {
+    // Close mobile menu on orientation change
+    if (navMenu.classList.contains('active')) {
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    // Recalculate viewport height for mobile browsers
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+});
+
+// Set initial viewport height
+document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+
+// Smooth scroll behavior for iOS Safari
+if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    document.documentElement.style.webkitOverflowScrolling = 'touch';
+}
+
+// Improve form input focus on mobile
+const formInputs = document.querySelectorAll('input, textarea, select');
+formInputs.forEach(input => {
+    // Prevent zoom on iOS when focusing inputs
+    input.addEventListener('touchstart', () => {
+        if (window.innerWidth < 768) {
+            input.style.fontSize = '16px';
+        }
+    });
+    
+    // Add active state for better mobile feedback
+    input.addEventListener('focus', () => {
+        input.parentElement.classList.add('input-focused');
+    });
+    
+    input.addEventListener('blur', () => {
+        input.parentElement.classList.remove('input-focused');
+    });
+});
+
+// Optimize testimonial swipe for touch devices
+if (isTouchDevice()) {
+    const testimonialSlider = document.querySelector('.testimonials-slider');
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    testimonialSlider.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    testimonialSlider.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swiped left - next testimonial
+                nextTestimonial();
+            } else {
+                // Swiped right - previous testimonial
+                prevTestimonial();
+            }
+        }
+    }
+}
+
+// Lazy loading for images (if images are added in the future)
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                    observer.unobserve(img);
+                }
+            }
+        });
+    });
+    
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+// Performance optimization: Throttle scroll events
+function throttle(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Apply throttling to scroll-heavy operations
+const throttledScroll = throttle(() => {
+    // Scroll operations are already optimized above
+}, 100);
+
+window.addEventListener('scroll', throttledScroll, { passive: true });
 
 // ===================================
 // Console Branding
