@@ -19,6 +19,271 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Schema.org Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["Dentist", "MedicalBusiness", "LocalBusiness"],
+          "@id": "https://olivedental.com/#organization",
+          "name": "Olive Dental",
+          "alternateName": "Olive Dental Clinic",
+          "url": "https://olivedental.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://olivedental.com/favicon.svg",
+            "width": "512",
+            "height": "512"
+          },
+          "image": [
+            "https://olivedental.com/homepage.png",
+            "https://olivedental.com/Assets/Dr-Rik-Mukherjee.png"
+          ],
+          "description": "Olive Dental - Premium dental care with a focus on your smile and comfort. Offering comprehensive dental services including general dentistry, cosmetic dentistry, dental implants, orthodontics, root canal treatment, and pediatric dentistry.",
+          "medicalSpecialty": [
+            "Dentistry",
+            "Oral and Maxillofacial Surgery",
+            "Endodontics",
+            "Cosmetic Dentistry",
+            "Orthodontics",
+            "Pediatric Dentistry"
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "48, Lake Ave, Lake Range",
+            "addressLocality": "Kalighat",
+            "addressRegion": "West Bengal",
+            "postalCode": "700026",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "22.5190",
+            "longitude": "88.3479"
+          },
+          "telephone": "+919147741925",
+          "email": "olivedental.maxillofacial@gmail.com",
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "08:00",
+              "closes": "19:00"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": "Saturday",
+              "opens": "09:00",
+              "closes": "17:00"
+            }
+          ],
+          "priceRange": "$$",
+          "currenciesAccepted": "INR",
+          "paymentAccepted": "Cash, Credit Card, Debit Card, UPI",
+          "hasMap": "https://maps.google.com/?q=48+Lake+Ave+Lake+Range+Kalighat+Kolkata+700026",
+          "areaServed": {
+            "@type": "City",
+            "name": "Kolkata",
+            "sameAs": "https://en.wikipedia.org/wiki/Kolkata"
+          },
+          "availableLanguage": ["English", "Hindi", "Bengali"],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "150",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "sameAs": [
+            "https://www.facebook.com/olivedental",
+            "https://www.instagram.com/olivedental",
+            "https://twitter.com/olivedental"
+          ],
+          "founder": [
+            {
+              "@type": "Person",
+              "name": "Dr. Rik Mukherjee",
+              "jobTitle": "Oral and Maxillofacial Surgeon",
+              "alumniOf": "MDS, Oral and Maxillofacial Surgery"
+            },
+            {
+              "@type": "Person",
+              "name": "Dr. Madhurima Goswami",
+              "jobTitle": "Endodontist",
+              "alumniOf": "MDS, Endodontics"
+            }
+          ],
+          "employee": [
+            {
+              "@type": "Person",
+              "@id": "https://olivedental.com/#dr-rik-mukherjee",
+              "name": "Dr. Rik Mukherjee",
+              "jobTitle": "Oral and Maxillofacial Surgeon",
+              "description": "With extensive experience in oral and maxillofacial surgery, Dr. Rik specializes in complex surgical procedures and dental implants.",
+              "image": "https://olivedental.com/Drs/Dr.%20Rik.png",
+              "alumniOf": {
+                "@type": "EducationalOrganization",
+                "name": "MDS Program in Oral and Maxillofacial Surgery"
+              },
+              "hasCredential": [
+                {
+                  "@type": "EducationalOccupationalCredential",
+                  "credentialCategory": "degree",
+                  "name": "BDS"
+                },
+                {
+                  "@type": "EducationalOccupationalCredential",
+                  "credentialCategory": "degree",
+                  "name": "MDS"
+                }
+              ]
+            },
+            {
+              "@type": "Person",
+              "@id": "https://olivedental.com/#dr-madhurima-goswami",
+              "name": "Dr. Madhurima Goswami",
+              "jobTitle": "Endodontist",
+              "description": "Expert in endodontics with extensive experience in root canal treatments and preserving natural teeth using advanced techniques.",
+              "image": "https://olivedental.com/Drs/Dr%20Madhrima.png",
+              "alumniOf": {
+                "@type": "EducationalOrganization",
+                "name": "MDS Program in Endodontics"
+              },
+              "hasCredential": [
+                {
+                  "@type": "EducationalOccupationalCredential",
+                  "credentialCategory": "degree",
+                  "name": "BDS"
+                },
+                {
+                  "@type": "EducationalOccupationalCredential",
+                  "credentialCategory": "degree",
+                  "name": "MDS"
+                }
+              ]
+            }
+          ],
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "General Dentistry",
+              "description": "Routine checkups, cleanings, fillings, and preventive care"
+            },
+            {
+              "@type": "Offer",
+              "name": "Cosmetic Dentistry",
+              "description": "Teeth whitening, veneers, smile makeovers"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dental Implants",
+              "description": "Permanent solution for missing teeth"
+            },
+            {
+              "@type": "Offer",
+              "name": "Orthodontics",
+              "description": "Braces and clear aligners for teeth straightening"
+            },
+            {
+              "@type": "Offer",
+              "name": "Root Canal Treatment",
+              "description": "Endodontic procedures to save infected teeth"
+            },
+            {
+              "@type": "Offer",
+              "name": "Pediatric Dentistry",
+              "description": "Specialized dental care for children"
+            }
+          ]
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://olivedental.com/#clinic",
+          "name": "Olive Dental Clinic",
+          "alternateName": "Olive Dental",
+          "url": "https://olivedental.com",
+          "medicalSpecialty": "Dentistry",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "48, Lake Ave, Lake Range",
+            "addressLocality": "Kalighat",
+            "addressRegion": "West Bengal",
+            "postalCode": "700026",
+            "addressCountry": "IN"
+          },
+          "telephone": "+919147741925",
+          "availableService": [
+            {
+              "@type": "MedicalProcedure",
+              "name": "Dental Examination",
+              "procedureType": "Diagnostic"
+            },
+            {
+              "@type": "MedicalProcedure",
+              "name": "Teeth Cleaning",
+              "procedureType": "Preventive"
+            },
+            {
+              "@type": "MedicalProcedure",
+              "name": "Dental Implants",
+              "procedureType": "Surgical"
+            },
+            {
+              "@type": "MedicalProcedure",
+              "name": "Root Canal Treatment",
+              "procedureType": "Therapeutic"
+            },
+            {
+              "@type": "MedicalProcedure",
+              "name": "Teeth Whitening",
+              "procedureType": "Cosmetic"
+            },
+            {
+              "@type": "MedicalProcedure",
+              "name": "Orthodontic Treatment",
+              "procedureType": "Corrective"
+            }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://olivedental.com/#website",
+          "url": "https://olivedental.com",
+          "name": "Olive Dental",
+          "description": "Premium dental care clinic in Kolkata offering comprehensive dental services",
+          "publisher": {
+            "@id": "https://olivedental.com/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://olivedental.com/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://olivedental.com/#webpage",
+          "url": "https://olivedental.com",
+          "name": "Olive Dental - Premium Dental Care in Kolkata",
+          "description": "Experience premium dental care with a personal touch. We're committed to creating beautiful, healthy smiles that last a lifetime.",
+          "isPartOf": {
+            "@id": "https://olivedental.com/#website"
+          },
+          "about": {
+            "@id": "https://olivedental.com/#organization"
+          },
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://olivedental.com/homepage.png"
+          },
+          "datePublished": "2024-01-01",
+          "dateModified": "2026-01-05"
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
