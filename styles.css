@@ -877,6 +877,22 @@ p {
     font-size: 0.95rem;
 }
 
+.info-item a {
+    color: var(--gray);
+    text-decoration: none;
+    transition: var(--transition);
+    display: inline-block;
+}
+
+.info-item a:hover {
+    color: var(--primary-gold);
+    transform: translateX(3px);
+}
+
+.info-item a:active {
+    transform: scale(0.98);
+}
+
 .social-links {
     display: flex;
     gap: 15px;
