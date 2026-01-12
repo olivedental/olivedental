@@ -244,11 +244,12 @@
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": ["Dentist", "MedicalBusiness", "LocalBusiness"],
+          "@type": ["Dentist", "MedicalBusiness", "LocalBusiness", "HealthAndBeautyBusiness"],
           "@id": "https://olivedentalkol.in/#organization",
           "name": "Olive Dental",
-          "alternateName": "Olive Dental Clinic",
+          "alternateName": ["Olive Dental Clinic", "Olive Dental Kolkata", "Olive Dental Kalighat"],
           "url": "https://olivedentalkol.in",
+          "identifier": "olivedental-kolkata",
           "logo": {
             "@type": "ImageObject",
             "@id": "https://olivedentalkol.in/#logo",
@@ -284,8 +285,16 @@
             "latitude": "22.5190",
             "longitude": "88.3479"
           },
-          "telephone": "+919147741925",
+          "telephone": ["+91 91477 41925", "+919147741925"],
           "email": "olivedental.maxillofacial@gmail.com",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-91477-41925",
+            "contactType": "customer service",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi", "Bengali"],
+            "contactOption": "TollFree"
+          },
           "openingHoursSpecification": [
             {
               "@type": "OpeningHoursSpecification",
@@ -298,11 +307,23 @@
           "currenciesAccepted": "INR",
           "paymentAccepted": "Cash, Credit Card, Debit Card, UPI",
           "hasMap": "https://maps.google.com/?q=48+Lake+Ave+Lake+Range+Kalighat+Kolkata+700026",
-          "areaServed": {
-            "@type": "City",
-            "name": "Kolkata",
-            "sameAs": "https://en.wikipedia.org/wiki/Kolkata"
-          },
+          "areaServed": [
+            {
+              "@type": "City",
+              "name": "Kolkata",
+              "sameAs": "https://en.wikipedia.org/wiki/Kolkata"
+            },
+            {
+              "@type": "AdministrativeArea",
+              "name": "West Bengal"
+            },
+            {
+              "@type": "Country",
+              "name": "India"
+            }
+          ],
+          "knowsAbout": ["Dentistry", "Dental Surgery", "Orthodontics", "Endodontics", "Cosmetic Dentistry", "Dental Implants"],
+          "slogan": "Your Smile, Our Masterpiece",
           "availableLanguage": ["English", "Hindi", "Bengali"],
           "aggregateRating": {
             "@type": "AggregateRating",
